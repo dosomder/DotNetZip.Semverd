@@ -898,7 +898,7 @@ namespace Ionic.Zip.Tests
             string testOut = this.Exec(cscriptExe,
                                       String.Format("\"{0}\" {1}", script, zipFileToCreate));
 
-            Assert.IsTrue(testOut.StartsWith("That zip is OK"));
+            Assert.IsTrue(testOut.Contains("That zip is OK"));
         }
 
 
@@ -932,7 +932,7 @@ namespace Ionic.Zip.Tests
             string testOut = this.Exec(cscriptExe,
                                       String.Format("\"{0}\" -x {1}", script, zipFileToCreate));
 
-            Assert.IsTrue(testOut.StartsWith("That zip is OK"), "output: {0}", testOut);
+            Assert.IsTrue(testOut.Contains("That zip is OK"), "output: {0}", testOut);
         }
 
 
@@ -947,7 +947,7 @@ namespace Ionic.Zip.Tests
             string testOut = this.Exec(cscriptExe,
                                       String.Format("\"{0}\" {1}", script, cscriptExe));
 
-            Assert.IsTrue(testOut.StartsWith("That zip is not OK"));
+            Assert.IsTrue(testOut.Contains("That zip is not OK"));
         }
 
         [TestMethod]
@@ -993,9 +993,9 @@ namespace Ionic.Zip.Tests
                                                          script, zipFileToCreate, password));
 
                 if (k==0)
-                    Assert.IsTrue(testOut.StartsWith("That zip is OK"));
+                    Assert.IsTrue(testOut.Contains("That zip is OK"));
                 else
-                    Assert.IsFalse(testOut.StartsWith("That zip is OK"));
+                    Assert.IsFalse(testOut.Contains("That zip is OK"));
             }
         }
 
