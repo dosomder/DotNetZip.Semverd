@@ -476,9 +476,6 @@ namespace Ionic.BZip2.Tests
             var dnzBzip2exe = Path.Combine(bzbin, "bzip2.exe");
             Assert.IsTrue(File.Exists(dnzBzip2exe), "Bzip2.exe is missing {0}",
                           dnzBzip2exe);
-            var unxBzip2exe = "\\bin\\bzip2.exe";
-            Assert.IsTrue(File.Exists(unxBzip2exe), "Bzip2.exe is missing {0}",
-                          unxBzip2exe);
 
             foreach (var key in TestStrings.Keys)
             {
@@ -510,9 +507,9 @@ namespace Ionic.BZip2.Tests
 
                 System.Threading.Thread.Sleep(1200);
 
-                args = "-dfk "+ bzfile;
+                args = bzfile + " -f";
                 TestContext.WriteLine("Exec: bzip2 {0}", args);
-                bzout = this.Exec(unxBzip2exe, args);
+                bzout = this.Exec(dnzBzip2exe, args);
                 Assert.IsTrue(File.Exists(fname), "File is missing. {0}",
                               fname);
 
