@@ -1261,6 +1261,44 @@ namespace Ionic.Zip.Tests.Basic
         }
 
 
+        //zipbomb_test.zip includes a file called 2048_bytes.txt with 2048 bytes
+        //The zip file was modified to display the content as 768 bytes (uncompressed size)
+        //DotNetZip should throw an error in this situation
+        [TestMethod]
+        public void Extract_ZipBomb()
+        {
+            try
+            {
+                using (ZipFile zf = ZipFile.Read(Path.Combine(CurrentDir, "zips", "zipbomb_test.zip")))
+                {
+                    ICollection<ZipEntry> zec = zf.SelectEntries("name = 2048_bytes.txt");
+                    if (zec.Count < 1)
+                        Assert.Fail("ZipEntry not found");
+                    foreach (ZipEntry ze in zec)
+                    {
+                        if (ze.UncompressedSize != 768)
+                            Assert.Fail("ZipEntry does not match expectations");
+                        else
+                            ze.Extract("extract");
+                    }
+
+                }
+                if (File.Exists(Path.Combine("extract", "2048_bytes.txt")))
+                {
+                    FileInfo fi = new FileInfo(Path.Combine("extract", "2048_bytes.txt"));
+                    if (fi.Length > 768)
+                        Assert.Fail();
+                }
+            }
+            catch (BadCrcException)
+            {
+            }
+            finally
+            {
+                if (File.Exists(Path.Combine("extract", "2048_bytes.txt")))
+                    File.Delete(Path.Combine("extract", "2048_bytes.txt"));
+            }
+        }
 
 
         [TestMethod]
